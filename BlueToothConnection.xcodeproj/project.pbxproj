@@ -21,6 +21,7 @@
 		7ECBF7D018AEB7AC00CA0D71 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ECBF7B218AEB7AC00CA0D71 /* UIKit.framework */; };
 		7ECBF7D818AEB7AC00CA0D71 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7ECBF7D618AEB7AC00CA0D71 /* InfoPlist.strings */; };
 		7ECBF7DA18AEB7AC00CA0D71 /* BlueToothConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECBF7D918AEB7AC00CA0D71 /* BlueToothConnectionTests.m */; };
+		7ECBF7E418AEB7E900CA0D71 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ECBF7E318AEB7E900CA0D71 /* MultipeerConnectivity.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		7ECBF7D518AEB7AC00CA0D71 /* BlueToothConnectionTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BlueToothConnectionTests-Info.plist"; sourceTree = "<group>"; };
 		7ECBF7D718AEB7AC00CA0D71 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7ECBF7D918AEB7AC00CA0D71 /* BlueToothConnectionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueToothConnectionTests.m; sourceTree = "<group>"; };
+		7ECBF7E318AEB7E900CA0D71 /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ECBF7E418AEB7E900CA0D71 /* MultipeerConnectivity.framework in Frameworks */,
 				7ECBF7B118AEB7AC00CA0D71 /* CoreGraphics.framework in Frameworks */,
 				7ECBF7B318AEB7AC00CA0D71 /* UIKit.framework in Frameworks */,
 				7ECBF7AF18AEB7AC00CA0D71 /* Foundation.framework in Frameworks */,
@@ -101,6 +104,7 @@
 		7ECBF7AD18AEB7AC00CA0D71 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7ECBF7E318AEB7E900CA0D71 /* MultipeerConnectivity.framework */,
 				7ECBF7AE18AEB7AC00CA0D71 /* Foundation.framework */,
 				7ECBF7B018AEB7AC00CA0D71 /* CoreGraphics.framework */,
 				7ECBF7B218AEB7AC00CA0D71 /* UIKit.framework */,
