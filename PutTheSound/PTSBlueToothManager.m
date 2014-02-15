@@ -33,7 +33,6 @@
     return shared;
 }
 
-
 -(void)setupManagerWithDelegate:(id)delegate
 {
     self._delegate = delegate;
@@ -149,6 +148,7 @@
 }
 -(void)startAdvertise:(NSDictionary *)dic
 {
+    [nearbyServiceAdvertiser stopAdvertisingPeer];
     [self startAdvertising];
 }
 -(void)stopAdvertise:(NSDictionary *)dic

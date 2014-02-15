@@ -11,6 +11,7 @@
 #import "PTSSlideViewController.h"
 #import "PTSMusicDataModel.h"
 #import "PTSBlueToothManager.h"
+#import "PTSBeaconManeger.h"
 
 @interface PTSViewController ()
 @property (weak, nonatomic) IBOutlet iCarousel *carousel;
@@ -21,6 +22,7 @@
 @property (nonatomic) MPMusicPlayerController *player;
 @property (nonatomic) BOOL isPlaying;
 @property (weak, nonatomic) PTSBlueToothManager *blueToothManager;
+@property (weak, nonatomic) PTSBeaconManeger *beaconManeger;
 @property (weak, nonatomic) PTSMusicDataModel *dataModel;
 @end
 
@@ -32,6 +34,10 @@
 	// Do any additional setup after loading the view.
     self.blueToothManager = [PTSBlueToothManager sharedManager];
     [self.blueToothManager setupManagerWithDelegate:self];
+    
+    self.beaconManeger = [PTSBeaconManeger sharedManager];
+    [self.beaconManeger setupManagerWithDelegate:self];
+    
     self.dataModel = [PTSMusicDataModel sharedManager];
     self.carousel.dataSource = self.dataModel;
     self.player = [MPMusicPlayerController iPodMusicPlayer];

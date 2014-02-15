@@ -18,6 +18,8 @@
 		50B83DAF02EB4268B9912154 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ABD9E847C314E028B0C1ACC /* libPods.a */; };
 		7ECBF7EA18AF6B4A00CA0D71 /* PTSBlueToothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECBF7E918AF6B4A00CA0D71 /* PTSBlueToothManager.m */; };
 		7ECBF7EC18AF6BA000CA0D71 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ECBF7EB18AF6BA000CA0D71 /* MultipeerConnectivity.framework */; };
+		7ECBF7F018AF881200CA0D71 /* PTSBeaconManeger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECBF7EF18AF881200CA0D71 /* PTSBeaconManeger.m */; };
+		7ECBF7F218AF8A0200CA0D71 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ECBF7F118AF8A0200CA0D71 /* CoreBluetooth.framework */; };
 		8F6858C118AE216C0056D91D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F6858C018AE216C0056D91D /* Foundation.framework */; };
 		8F6858C318AE216C0056D91D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F6858C218AE216C0056D91D /* CoreGraphics.framework */; };
 		8F6858C518AE216C0056D91D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F6858C418AE216C0056D91D /* UIKit.framework */; };
@@ -69,6 +71,9 @@
 		7ECBF7E818AF6B4A00CA0D71 /* PTSBlueToothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTSBlueToothManager.h; sourceTree = "<group>"; };
 		7ECBF7E918AF6B4A00CA0D71 /* PTSBlueToothManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTSBlueToothManager.m; sourceTree = "<group>"; };
 		7ECBF7EB18AF6BA000CA0D71 /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
+		7ECBF7EE18AF881200CA0D71 /* PTSBeaconManeger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTSBeaconManeger.h; sourceTree = "<group>"; };
+		7ECBF7EF18AF881200CA0D71 /* PTSBeaconManeger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTSBeaconManeger.m; sourceTree = "<group>"; };
+		7ECBF7F118AF8A0200CA0D71 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		8F6858BD18AE216C0056D91D /* PutTheSound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PutTheSound.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F6858C018AE216C0056D91D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8F6858C218AE216C0056D91D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -106,9 +111,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ECBF7F218AF8A0200CA0D71 /* CoreBluetooth.framework in Frameworks */,
+				410568E518AE800C00CDBFEF /* CoreLocation.framework in Frameworks */,
 				7ECBF7EC18AF6BA000CA0D71 /* MultipeerConnectivity.framework in Frameworks */,
 				41AE376318AF44E7008277CB /* QuartzCore.framework in Frameworks */,
-				410568E518AE800C00CDBFEF /* CoreLocation.framework in Frameworks */,
 				8F6858F618AE217E0056D91D /* AVFoundation.framework in Frameworks */,
 				8F6858C318AE216C0056D91D /* CoreGraphics.framework in Frameworks */,
 				8F6858C518AE216C0056D91D /* UIKit.framework in Frameworks */,
@@ -158,6 +164,17 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		7ECBF7ED18AF875700CA0D71 /* BlueTooth */ = {
+			isa = PBXGroup;
+			children = (
+				7ECBF7E818AF6B4A00CA0D71 /* PTSBlueToothManager.h */,
+				7ECBF7E918AF6B4A00CA0D71 /* PTSBlueToothManager.m */,
+				7ECBF7EE18AF881200CA0D71 /* PTSBeaconManeger.h */,
+				7ECBF7EF18AF881200CA0D71 /* PTSBeaconManeger.m */,
+			);
+			name = BlueTooth;
+			sourceTree = "<group>";
+		};
 		8F6858B418AE216C0056D91D = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +198,7 @@
 		8F6858BF18AE216C0056D91D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7ECBF7F118AF8A0200CA0D71 /* CoreBluetooth.framework */,
 				7ECBF7EB18AF6BA000CA0D71 /* MultipeerConnectivity.framework */,
 				41AE376218AF44E7008277CB /* QuartzCore.framework */,
 				410568E418AE800C00CDBFEF /* CoreLocation.framework */,
@@ -208,9 +226,8 @@
 				8F6858D018AE216D0056D91D /* PTSAppDelegate.m */,
 				8F6858D218AE216D0056D91D /* Main.storyboard */,
 				8F6858D818AE216D0056D91D /* Images.xcassets */,
+				7ECBF7ED18AF875700CA0D71 /* BlueTooth */,
 				8F6858C718AE216C0056D91D /* Supporting Files */,
-				7ECBF7E818AF6B4A00CA0D71 /* PTSBlueToothManager.h */,
-				7ECBF7E918AF6B4A00CA0D71 /* PTSBlueToothManager.m */,
 			);
 			path = PutTheSound;
 			sourceTree = "<group>";
@@ -451,6 +468,7 @@
 				8F6858D118AE216D0056D91D /* PTSAppDelegate.m in Sources */,
 				8F6858CD18AE216D0056D91D /* main.m in Sources */,
 				8F6858F918AE271A0056D91D /* PTSRecommendViewController.m in Sources */,
+				7ECBF7F018AF881200CA0D71 /* PTSBeaconManeger.m in Sources */,
 				41AE376718AF51C1008277CB /* PTSMusicDataModel.m in Sources */,
 				410568EC18AE8ECA00CDBFEF /* PTSRecommendArtworkView.m in Sources */,
 				41AE376118AF2F70008277CB /* PTSSlideViewController.m in Sources */,
