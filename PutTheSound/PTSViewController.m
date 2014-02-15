@@ -37,7 +37,8 @@
     
     self.beaconManeger = [PTSBeaconManeger sharedManager];
     [self.beaconManeger setupManagerWithDelegate:self];
-    [self.beaconManeger startAdvertising:55555];
+    
+    [self updateConnectionAdvertise];
     
     self.dataModel = [PTSMusicDataModel sharedManager];
     self.carousel.dataSource = self.dataModel;
@@ -55,17 +56,17 @@
     [self p_setUpButton];
 }
 - (IBAction)didPushBackButton:(id)sender {
-    [self.blueToothManager startAdvertise:Nil];
-    [self.beaconManeger startAdvertising:12345];
+    
     [self.player skipToPreviousItem];
+    [self updateConnectionAdvertise];
     [self p_updateLabel];
 }
 - (IBAction)didPushNextButton:(id)sender {
-    [self.blueToothManager startAdvertise:Nil];
-    [self.beaconManeger startAdvertising:54321];
     [self.player skipToNextItem];
+    [self updateConnectionAdvertise];
     [self p_updateLabel];
 }
+
 - (IBAction)didPushOpenRecommend:(id)sender {
     if (self.slideVC.isClosed) {
         [self.slideVC shouldOpenLeft];
@@ -100,6 +101,23 @@
     for( MPMediaPlaylist *plist in [query collections] )
     {
         NSLog(@"%@", [plist valueForProperty:MPMediaPlaylistPropertyName]);
+    }
+}
+
+- (void) updateConnectionAdvertise
+{
+    if(_isPlaying){
+        MPMediaItem *song = [self.player nowPlayingItem];
+        NSDictionary *songDic = @{@"ID":[song valueForProperty: MPMediaItemPropertyPersistentID],
+                                  @"TITLE":[song valueForProperty: MPMediaItemPropertyTitle],
+                                  @"ARTIST":[song valueForProperty: MPMediaItemPropertyArtist],
+                                  @"ALUBUMTITLE":[song valueForProperty: MPMediaItemPropertyAlbumTitle],
+                                  @"ARTWORK":[song valueForProperty: MPMediaItemPropertyArtwork]};
+
+        NSString *trackID = songDic[@"ID"];
+        [self.beaconManeger startAdvertising:[trackID doubleValue]];
+        [self.blueToothManager startAdvertising:songDic];
+        
     }
 }
 

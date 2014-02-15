@@ -8,6 +8,8 @@
 
 #import "PTSBeaconManeger.h"
 
+static NSString *const kGetTrackNameBaseURL = @"http://www1415uo.sakura.ne.jp/music/MusicDetail.php?id=";
+
 @interface PTSBeaconManeger()
 
 @property (nonatomic) CLLocationManager *locationManager;
@@ -81,6 +83,11 @@
                 break;
         }
         if (nearestBeacon.proximity != CLProximityUnknown) {
+            int major = [nearestBeacon.major intValue];
+            int minor = [nearestBeacon.minor intValue];
+            double trackID = major * 1000 + minor;
+            [self loadURL:trackID];
+            
             [self sendLocalNotificationForMessage:@"近くに音楽聞いてる人がいるよ！"];
         }
     }
@@ -121,7 +128,7 @@
     }
 }
 
-- (void)startAdvertising:(long)trackID
+- (void)startAdvertising:(double)trackID
 {
     if (self.peripheralManager.state != CBPeripheralManagerStatePoweredOn) {
         return;
@@ -158,4 +165,24 @@
     [self.peripheralManager stopAdvertising];
 }
 
+-(void)loadURL:(double)trackID
+{
+    NSURL *requestUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%d",kGetTrackNameBaseURL,(int)trackID]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue new]
+                           completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error){
+                               
+                               if(data){
+                                   NSError *error = nil;
+                                   NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+                                   
+                                   if(!jsonObject && error){
+                                       return;
+                                   }
+                                
+                                   NSString *trackName = jsonObject[@"results"][@"trackName"];
+                                   [self sendLocalNotificationForMessage:trackName];                                   }
+                           }];
+}
 @end

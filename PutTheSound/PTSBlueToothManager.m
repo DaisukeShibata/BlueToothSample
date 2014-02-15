@@ -8,8 +8,10 @@
 
 #import "PTSBlueToothManager.h"
 
+static NSString *const kGetTrackNameBaseURL = @"http://www1415uo.sakura.ne.jp/music/MusicDetail.php?id=";
 
 @interface PTSBlueToothManager()
+@property(nonatomic) NSDictionary *songDic;
 @end
 
 @implementation PTSBlueToothManager
@@ -19,6 +21,8 @@
 @synthesize nearbyServiceBrowser;
 @synthesize session;
 @synthesize _delegate;
+
+@synthesize songDic;
 
 
 #pragma mark - Public method
@@ -68,8 +72,6 @@
 //ピアが発見されたときに呼ばれる
 - (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
 {
-    [self showAlert:@"ピア発見！" message:peerID.displayName];
-    
     [nearbyServiceBrowser invitePeer:peerID toSession:session withContext:[@"Welcome" dataUsingEncoding:NSUTF8StringEncoding] timeout:10];
 }
 
@@ -83,7 +85,6 @@
 {
     if(error){
         NSLog(@"%@", [error localizedDescription]);
-        [self showAlert:@"ERROR didNotStartAdvertisingPeer" message:[error localizedDescription]];
     }
 }
 
@@ -92,7 +93,6 @@
 {
     //承認する
     invitationHandler(TRUE, self.session);
-    [self showAlert:@"承認！！" message:@"accept invitation!"];
 }
 
 #pragma mark - MCSessionDelegate
@@ -100,13 +100,11 @@
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
 {
     
-//    NSDictionary *reverse = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSDictionary *reverse = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSString *trackID = reverse[@"trackId"];
+    [self loadURL:[trackID doubleValue]];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self._delegate respondsToSelector:@selector(setPersonalData:)]) {
-            [self._delegate setPersonalData:data];
-        }
-    });
+    
 }
 
 - (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress
@@ -128,8 +126,7 @@
 {
     if(state == MCSessionStateConnected && self.session){
         NSError *error;
-        NSDictionary *dic = [NSDictionary dictionaryWithObject:@"げっと" forKey:@"GET"];
-        NSData *targetData = [NSKeyedArchiver archivedDataWithRootObject:dic];
+        NSData *targetData = [NSKeyedArchiver archivedDataWithRootObject:self.songDic];
         [self.session sendData:targetData toPeers:[NSArray arrayWithObject:peerID] withMode:MCSessionSendDataReliable error:&error];
     }
 }
@@ -139,20 +136,43 @@
     certificateHandler(TRUE);
 }
 
-- (void)startAdvertising
+- (void)startAdvertising:(NSDictionary *)dic
 {
-    NSDictionary *discoveryInfo = [[NSDictionary alloc] initWithObjectsAndKeys:@"foo", @"bar", @"bar", @"foo", nil];
-    nearbyServiceAdvertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:myPeerID discoveryInfo:discoveryInfo serviceType:serviceType];
+    [nearbyServiceAdvertiser stopAdvertisingPeer];
+    self.songDic = dic;
+    nearbyServiceAdvertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:myPeerID discoveryInfo:nil serviceType:serviceType];
     nearbyServiceAdvertiser.delegate = self;
     [nearbyServiceAdvertiser startAdvertisingPeer];
 }
--(void)startAdvertise:(NSDictionary *)dic
+
+-(void)loadURL:(double)trackID
 {
-    [nearbyServiceAdvertiser stopAdvertisingPeer];
-    [self startAdvertising];
+    NSURL *requestUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%d",kGetTrackNameBaseURL,(int)trackID]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue new]
+                           completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error){
+                               
+                               if(data){
+                                   NSError *error = nil;
+                                   NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+                                   
+                                   if(!jsonObject && error){
+                                       return;
+                                   }
+                                   [self sendLocalNotificationForMessage:jsonObject[@"result"][@"previewUrl"]];
+                                   
+                               }
+                           }];
 }
--(void)stopAdvertise:(NSDictionary *)dic
+- (void)sendLocalNotificationForMessage:(NSString *)message
 {
-    [nearbyServiceAdvertiser stopAdvertisingPeer];
+    UILocalNotification *localNotification = [UILocalNotification new];
+    localNotification.alertBody = message;
+    localNotification.fireDate = [NSDate date];
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
+
+
 @end

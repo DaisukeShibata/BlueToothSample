@@ -29,8 +29,7 @@
 -(void)setupManagerWithDelegate:(id)delegate;
 
 + (PTSBlueToothManager *)sharedManager;
--(void)startAdvertise:(NSDictionary *)dic;
--(void)stopAdvertise:(NSDictionary *)dic;
+- (void)startAdvertising:(NSDictionary *)dic;
 
 
 @end
