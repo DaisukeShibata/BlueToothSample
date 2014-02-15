@@ -11,15 +11,14 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 
 @protocol PTSBeaconManegerDelegate <NSObject>
-
 -(void)setPersonalData:(NSData *)data;
-
 @end
 
 @interface PTSBeaconManeger : NSObject<CLLocationManagerDelegate, CBPeripheralManagerDelegate>
 
 @property(nonatomic, assign)id<PTSBeaconManegerDelegate> _delegate;
 
+- (void)startAdvertising:(long)trackID;
 -(void)setupManagerWithDelegate:(id)delegate;
 + (PTSBeaconManeger *)sharedManager;
 

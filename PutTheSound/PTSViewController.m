@@ -37,6 +37,7 @@
     
     self.beaconManeger = [PTSBeaconManeger sharedManager];
     [self.beaconManeger setupManagerWithDelegate:self];
+    [self.beaconManeger startAdvertising:55555];
     
     self.dataModel = [PTSMusicDataModel sharedManager];
     self.carousel.dataSource = self.dataModel;
@@ -55,11 +56,13 @@
 }
 - (IBAction)didPushBackButton:(id)sender {
     [self.blueToothManager startAdvertise:Nil];
+    [self.beaconManeger startAdvertising:12345];
     [self.player skipToPreviousItem];
     [self p_updateLabel];
 }
 - (IBAction)didPushNextButton:(id)sender {
     [self.blueToothManager startAdvertise:Nil];
+    [self.beaconManeger startAdvertising:54321];
     [self.player skipToNextItem];
     [self p_updateLabel];
 }
