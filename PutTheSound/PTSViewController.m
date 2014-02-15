@@ -10,6 +10,7 @@
 #import "PTSPlayListViewController.h"
 #import "PTSSlideViewController.h"
 #import "PTSMusicDataModel.h"
+#import "PTSBlueToothManager.h"
 
 @interface PTSViewController ()
 @property (weak, nonatomic) IBOutlet iCarousel *carousel;
@@ -19,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (nonatomic) MPMusicPlayerController *player;
 @property (nonatomic) BOOL isPlaying;
-
+@property (weak, nonatomic) PTSBlueToothManager *blueToothManager;
 @property (weak, nonatomic) PTSMusicDataModel *dataModel;
 @end
 
@@ -29,6 +30,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.blueToothManager = [PTSBlueToothManager sharedManager];
+    [self.blueToothManager setupManagerWithDelegate:self];
     self.dataModel = [PTSMusicDataModel sharedManager];
     self.carousel.dataSource = self.dataModel;
     self.player = [MPMusicPlayerController iPodMusicPlayer];
@@ -45,10 +48,12 @@
     [self p_setUpButton];
 }
 - (IBAction)didPushBackButton:(id)sender {
+    [self.blueToothManager startAdvertise:Nil];
     [self.player skipToPreviousItem];
     [self p_updateLabel];
 }
 - (IBAction)didPushNextButton:(id)sender {
+    [self.blueToothManager startAdvertise:Nil];
     [self.player skipToNextItem];
     [self p_updateLabel];
 }
